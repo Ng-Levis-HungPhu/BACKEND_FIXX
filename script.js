@@ -109,7 +109,7 @@ document.querySelector('.overlap-3').addEventListener('click', async () => {
 
   if (isNaN(mach) || isNaN(aoa) || isNaN(ln) || isNaN(swept) || isNaN(lln)) return;
 
-  const response = await fetch(`${BASE_URL}/predict`, {
+  const response = await fetch(`https://backend-fixx.onrender.com/predict`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ mode, mach, aoa, ln, swept, lln })
