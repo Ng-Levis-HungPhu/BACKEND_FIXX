@@ -29,7 +29,6 @@ dropdownList.querySelectorAll("a").forEach(item => {
     dropdownList.style.display = "none";
     updateDisplayedValues();
     updateFieldLocking(mode);
-    createRocketModel();
   });
 });
 
@@ -98,13 +97,6 @@ document.querySelector('.overlap-3').addEventListener('click', async () => {
     document.querySelector(".text-wrapper-18").textContent = data.cl;
     document.querySelector(".text-wrapper-16").textContent = data.cd;
 
-    if (data.warning) {
-      alert(data.warning);
-    }
-  } catch (err) {
-    console.error("Lỗi:", err);
-    alert("Không kết nối được với server: " + err.message);
-  }
 });
 
 function updateFieldLocking(mode) {
