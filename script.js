@@ -100,38 +100,31 @@ function updateDisplayedValues() {
 updateDisplayedValues();
 
 document.querySelector('.overlap-3').addEventListener('click', async () => {
-  try {
-    const mach = parseFloat(document.getElementById('machInput').value);
-    const aoa = parseFloat(document.getElementById('aoaInput').value);
-    const ln = parseFloat(document.getElementById('lnInput').value);
-    const swept = parseFloat(document.getElementById('sweptInput').value);
-    const lln = parseFloat(document.getElementById('lengthInput').value);
-    const mode = document.getElementById('dropdownBtn').textContent.split(": ")[1];
+  const mach = parseFloat(document.getElementById('machInput').value);
+  const aoa = parseFloat(document.getElementById('aoaInput').value);
+  const ln = parseFloat(document.getElementById('lnInput').value);
+  const swept = parseFloat(document.getElementById('sweptInput').value);
+  const lln = parseFloat(document.getElementById('lengthInput').value);
+  const mode = document.getElementById('dropdownBtn').textContent.split(": ")[1];
 
-    if (isNaN(mach) || isNaN(aoa) || isNaN(ln)|| isNaN(swept)|| isNaN(lln)) {
-      alert("Vui lòng nhập đủ cả 5 thông số!");
-      return;
-    }
+  if (isNaN(mach) || isNaN(aoa) || isNaN(ln) || isNaN(swept) || isNaN(lln)) return;
 
-    const response = await fetch("https://backend-fixx.onrender.com/predict", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({mode, mach, aoa, ln, swept, lln})
-    });
+  const response = await fetch(`${BASE_URL}/predict`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ mode, mach, aoa, ln, swept, lln })
+  });
 
-    const data = await response.json();
+  // ✅ Chặn lỗi nếu server không trả JSON hợp lệ
+  if (!response.ok) return;
 
-    if (!response.ok) {
-      alert(data.error || "Lỗi không xác định từ server");
-      return;
-    }
+  const contentType = response.headers.get("content-type") || "";
+  if (!contentType.includes("application/json")) return;
 
-    document.querySelector(".text-wrapper-18").textContent = data.cl;
-    document.querySelector(".text-wrapper-16").textContent = data.cd;
-  } catch (err) {
-    console.error("Lỗi:", err);
-    alert("Không kết nối được với server: " + err.message);
-  }
+  const data = await response.json();
+
+  document.querySelector(".text-wrapper-18").textContent = data.cl;
+  document.querySelector(".text-wrapper-16").textContent = data.cd;
 });
 
 function updateFieldLocking(mode) {
