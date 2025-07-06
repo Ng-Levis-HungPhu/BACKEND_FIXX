@@ -68,6 +68,37 @@ function updateDisplayedValues() {
 
 updateDisplayedValues();
 
+function updateDisplayedValues() {
+  const cssVars = getComputedStyle(body);
+  const getVar = name => parseFloat(cssVars.getPropertyValue(name))?.toFixed(2) || "0.00";
+
+  const values = {
+    length: getVar("--variable-collection-length"),
+    diameter: getVar("--variable-collection-diameter"),
+    LW: getVar("--variable-collection-LW"),
+    LF: getVar("--variable-collection-LF"),
+    CTW: getVar("--variable-collection-CTW"),
+    CRW: getVar("--variable-collection-CRW"),
+    CTF: getVar("--variable-collection-CTF"),
+    CRF: getVar("--variable-collection-CRF"),
+    BW: getVar("--variable-collection-BW"),
+    BF: getVar("--variable-collection-BF"),
+  };
+
+  document.querySelectorAll(".text-wrapper-3")[0].textContent = values.length;
+  document.querySelectorAll(".text-wrapper-3")[1].textContent = values.LF;
+  document.querySelectorAll(".text-wrapper-3")[2].textContent = values.LW;
+  document.querySelector(".text-wrapper-6").textContent = values.diameter;
+  document.querySelectorAll(".text-wrapper-8")[0].textContent = values.CTW;
+  document.querySelectorAll(".text-wrapper-6")[1].textContent = values.CRW;
+  document.querySelectorAll(".text-wrapper-8")[1].textContent = values.CTF;
+  document.querySelectorAll(".text-wrapper-8")[2].textContent = values.CRF;
+  document.querySelectorAll(".text-wrapper-8")[3].textContent = values.BW;
+  document.querySelectorAll(".text-wrapper-8")[4].textContent = values.BF;
+}
+
+updateDisplayedValues();
+
 document.querySelector('.overlap-3').addEventListener('click', async () => {
   try {
     const mach = parseFloat(document.getElementById('machInput').value);
@@ -97,10 +128,6 @@ document.querySelector('.overlap-3').addEventListener('click', async () => {
 
     document.querySelector(".text-wrapper-18").textContent = data.cl;
     document.querySelector(".text-wrapper-16").textContent = data.cd;
-
-    if (data.warning) {
-      alert(data.warning);
-    }
   } catch (err) {
     console.error("Lỗi:", err);
     alert("Không kết nối được với server: " + err.message);
